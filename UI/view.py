@@ -24,6 +24,8 @@ class View:
         # Elementi UI
         self.txt_titolo = None
         self.txt_responsabile = None
+        self.txt_strumenti = None
+        self.txt_titolo_sez_4 = None
 
         # Non obbligatorio mettere già qui tutti gli elementi UI
 
@@ -46,6 +48,9 @@ class View:
             weight=ft.FontWeight.BOLD
         )
 
+        self.txt_strumenti = ft.Text(value = "Strumenti", size = 28, weight = ft.FontWeight.BOLD)
+        self.txt_titolo_sez_4 = ft.Text(value = "Cerca strumento per tipo", size = 38, weight=ft.FontWeight.BOLD)
+
         # TextField per responsabile
         self.input_responsabile = ft.TextField(value=self.controller.get_responsabile(), label="Responsabile")
 
@@ -63,7 +68,10 @@ class View:
         pulsante_conferma_responsabile = ft.Button("Conferma", on_click=self.controller.conferma_responsabile)
 
         # Altri Pulsanti da implementare (es. "Mostra" e "Cerca")
-        # TODO
+        pulsante_mostra_strumenti = ft.Button('Mostra', on_click = self.controller.mostra_strumenti)
+        pulsante_cerca_strumento = ft.Button('Cerca', on_click = self.controller.cerca_strumenti)
+
+
 
         # --- LAYOUT ---
         self.page.add(
@@ -82,10 +90,13 @@ class View:
             ft.Divider(),
 
             # Sezione 3
-            # TODO
+
+            ft.Row(spacing = 200,
+                   controls = [self.txt_strumenti,pulsante_mostra_strumenti],
+                   alignment=ft.MainAxisAlignment.START)
 
             # Sezione 4
-            # TODO
+
         )
 
     def cambia_tema(self, e):

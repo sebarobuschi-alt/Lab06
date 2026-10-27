@@ -1,4 +1,7 @@
 from database.DB_connect import get_connection
+from errno import errorcode
+from database import DB_connect
+import mysql.connector
 from model.strumento import Strumento
 from model.prestito import Prestito
 
@@ -35,7 +38,19 @@ class DepositoStrumenti:
             Funzione che legge tutti gli strumenti nel database
             :return: una lista con tutti gli strumenti presenti oppure None
         """
-        # TODO
+        lista_strumenti = []
+        cnx = DB_connect.get_connection()
+        cursor = cnx.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM strumento")
+        if cursor is None:
+            lista_strumenti = None
+
+        else:
+
+            for strumento in cursor:
+                lista_strumenti.append(strumento)
+
+        return lista_strumenti
 
     def cerca_strumenti_per_tipo(self, tipo) -> list[Strumento] | None:
         """
@@ -43,4 +58,19 @@ class DepositoStrumenti:
             :param tipo: il tipo dello strumento (es. "Chitarra")
             :return: una lista con tutti gli strumenti del tipo indicato oppure None
         """
-        # TODO
+        lista_strumenti_tipo= []
+        cnx = DB_connect.get_connection()
+        cursor = cnx.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM strumento")
+        if cursor is None or tipo is None:
+            lista_strumenti_tipo = None
+
+        else:
+
+            for strumento in cursor:
+                if strumento['tipo'] == str(tipo):
+
+                    lista_strumenti_tipo.append(strumento['codice'])
+
+        return lista_strumenti_tipo
+
