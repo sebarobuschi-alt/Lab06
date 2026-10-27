@@ -16,6 +16,7 @@ class DepositoStrumenti:
     def __init__(self, nome, responsabile):
         self._nome = nome
         self._responsabile = responsabile
+        self.lista_strumenti = []
 
     @property
     def nome(self):
@@ -38,19 +39,37 @@ class DepositoStrumenti:
             Funzione che legge tutti gli strumenti nel database
             :return: una lista con tutti gli strumenti presenti oppure None
         """
-        lista_strumenti = []
+
         cnx = DB_connect.get_connection()
         cursor = cnx.cursor(dictionary=True)
         cursor.execute("SELECT * FROM strumento")
-        if cursor is None:
-            lista_strumenti = None
 
-        else:
+        self._lista_strumenti = []
+        try:
+            if cursor is None:
+               return None
 
-            for strumento in cursor:
-                lista_strumenti.append(strumento)
+            else:
 
-        return lista_strumenti
+                for row in cursor.fetchall():
+
+                    s = Strumento(
+                        codice=row['codice'],
+                        tipo=row['tipo'],
+                        marca=row['marca'],
+                        anno_acquisto=row['anno_acquisto'],
+                        valore=row['valore'],
+                        disponibile=bool(row['disponibile'])
+                    )
+                    self._lista_strumenti.append(s)
+
+                return self._lista_strumenti
+        finally:
+            cursor.close()
+            cnx.close()
+
+
+
 
     def cerca_strumenti_per_tipo(self, tipo) -> list[Strumento] | None:
         """
@@ -58,19 +77,11 @@ class DepositoStrumenti:
             :param tipo: il tipo dello strumento (es. "Chitarra")
             :return: una lista con tutti gli strumenti del tipo indicato oppure None
         """
-        lista_strumenti_tipo= []
-        cnx = DB_connect.get_connection()
-        cursor = cnx.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM strumento")
-        if cursor is None or tipo is None:
-            lista_strumenti_tipo = None
+        if not self.lista_strumenti or not tipo:
+            return []
 
-        else:
-
-            for strumento in cursor:
-                if strumento['tipo'] == str(tipo):
-
-                    lista_strumenti_tipo.append(strumento['codice'])
-
-        return lista_strumenti_tipo
+        return [
+            s for s in self.lista_strumenti
+            if str(s.get('tipo', '')).lower() == tipo.strip().lower()
+        ]
 

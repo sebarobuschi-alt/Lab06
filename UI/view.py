@@ -49,7 +49,7 @@ class View:
         )
 
         self.txt_strumenti = ft.Text(value = "Strumenti", size = 28, weight = ft.FontWeight.BOLD)
-        self.txt_titolo_sez_4 = ft.Text(value = "Cerca strumento per tipo", size = 38, weight=ft.FontWeight.BOLD)
+        self.txt_titolo_sez_4 = ft.Text(value = "Cerca Strumento per Tipo", size = 38, weight=ft.FontWeight.BOLD)
 
         # TextField per responsabile
         self.input_responsabile = ft.TextField(value=self.controller.get_responsabile(), label="Responsabile")
@@ -69,7 +69,7 @@ class View:
 
         # Altri Pulsanti da implementare (es. "Mostra" e "Cerca")
         pulsante_mostra_strumenti = ft.Button('Mostra', on_click = self.controller.mostra_strumenti)
-        pulsante_cerca_strumento = ft.Button('Cerca', on_click = self.controller.cerca_strumenti)
+        pulsante_cerca_strumenti = ft.Button('Cerca', on_click = self.controller.cerca_strumenti_tipo)
 
 
 
@@ -92,10 +92,16 @@ class View:
             # Sezione 3
 
             ft.Row(spacing = 200,
-                   controls = [self.txt_strumenti,pulsante_mostra_strumenti],
-                   alignment=ft.MainAxisAlignment.START)
+                   controls = [self.txt_strumenti,pulsante_mostra_strumenti,self.lista_strumenti],
+                   alignment=ft.MainAxisAlignment.START),
+            ft.Divider(),
 
             # Sezione 4
+            self.txt_titolo_sez_4,
+            ft.Row(spacing = 200,
+                   controls = [self.input_tipo_strumento,pulsante_cerca_strumenti],
+                   alignment=ft.MainAxisAlignment.START),
+
 
         )
 
