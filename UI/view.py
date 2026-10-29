@@ -14,6 +14,7 @@ class View:
         self.page.title = "Lab06"
         self.page.horizontal_alignment = "center"
         self.page.theme_mode = ft.ThemeMode.DARK
+        self.page.scroll = ft.ScrollMode.AUTO
 
         # Alert
         self.alert = AlertManager(page)
@@ -99,7 +100,7 @@ class View:
             # Sezione 4
             self.txt_titolo_sez_4,
             ft.Row(spacing = 200,
-                   controls = [self.input_tipo_strumento,pulsante_cerca_strumenti],
+                   controls = [self.input_tipo_strumento,pulsante_cerca_strumenti,self.lista_strumenti_ricerca],
                    alignment=ft.MainAxisAlignment.START),
 
 

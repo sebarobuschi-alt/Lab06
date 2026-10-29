@@ -40,7 +40,7 @@ class Controller:
         else:
             for s in strumenti:
                 disp_str = "disponibile" if s.disponibile else "non disponibile"
-                info_testo = (f"{s.codice} - {s.marca} | {s.anno_acquisto} | {s.valore}€ | {disp_str}"
+                info_testo = (f"{s.codice} - {s.tipo} | {s.marca} | {s.anno_acquisto} | {s.valore}€ | {disp_str}"
                 )
                 self._view.lista_strumenti.controls.append(ft.Text(info_testo, size = 14))
                 self._view.update()
@@ -49,17 +49,11 @@ class Controller:
 
     def cerca_strumenti_tipo(self,e):
         tipo_cercato = self._view.input_tipo_strumento.value
-        if not self._model.lista_strumenti:
-            self._model.get_strumenti()
+        strumenti_ricerca= self._model.cerca_strumenti_per_tipo(tipo_cercato)
+        self._view.lista_strumenti_ricerca.controls.clear()
+        for s in strumenti_ricerca:
+                    disp_str = "disponibile" if s.disponibile else "occupato"
+                    info_s = f"{s.codice} | {s.marca} | {s.anno_acquisto} | {s.valore} | {disp_str}"
 
-            risultati = self._model.lista_strumenti.cerca_strumenti_per_tipo(tipo_cercato)
-            self._view.lista_strumenti_ricerca.controls.clear()
-
-        if not risultati:
-            self._view.lista_strumenti_ricerca.controls.append(ft.Text("Nessun risultato trovato"))
-        else:
-            for s in risultati:
-                self._view.lista_strumenti_ricerca.controls.append(
-                    info_testo = f"{s.codice} - {s.marca} | {s.anno_acquisto} | {s.valore}€"
-                    )
-        self._view.update()
+                    self._view.lista_strumenti_ricerca.controls.append(ft.Text(info_s, size = 14))
+                    self._view.update()
