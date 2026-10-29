@@ -103,7 +103,6 @@ class View:
                    controls = [self.input_tipo_strumento,pulsante_cerca_strumenti,self.lista_strumenti_ricerca],
                    alignment=ft.MainAxisAlignment.START),
 
-
         )
 
     def cambia_tema(self, e):

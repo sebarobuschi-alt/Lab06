@@ -88,7 +88,7 @@ class DepositoStrumenti:
 
         else:
              for s in self.lista_strumenti:
-                 if s.tipo == tipo_cercato:
+                 if s.tipo.lower() == tipo_cercato.lower():
                      lista_strumenti_ricerca.append(s)
              return lista_strumenti_ricerca
 
